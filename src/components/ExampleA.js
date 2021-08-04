@@ -121,12 +121,39 @@ class ExampleA extends Component {
         );
     };
 
+    handleClick = (e) => {
+
+        if (e[0].label.includes("http")) {
+
+        window.open(e[0].label, "_blank") }
+
+    }
+
     createRows = rowId => {
         // property filtering
         const dataFrame = this.state.requestedData.comparisonData;
         const activeProperties = dataFrame.properties.filter(property => property.active === true);
         return activeProperties.map(property => {
             const dataValues = dataFrame.data[property.id][rowId];
+            
+            function changeColor(e) {
+
+                if (dataValues[0].label.includes("http")){
+
+                e.target.style.color = 'blue';
+
+                e.target.style.cursor = 'pointer';
+
+                }
+
+              }
+
+              function changeColor2(e) {
+
+                e.target.style.color = 'black';
+
+              }
+            
             return (
                 <td
                     key={'td_id' + rowId + '_' + property.id}
@@ -138,6 +165,13 @@ class ExampleA extends Component {
                         padding: '3px',
                         maxWidth: '200px'
                     }}
+        
+                    onClick = {() => this.handleClick(dataValues)}
+
+                    onMouseEnter={changeColor}
+
+                    onMouseLeave={changeColor2}
+
                 >
                     {dataValues.map(val => {
                         return val.label + ' ';
