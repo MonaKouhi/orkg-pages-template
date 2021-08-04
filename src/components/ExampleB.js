@@ -22,11 +22,31 @@ class ExampleB extends Component {
             this.setState({ requestedData: dataFrame, loading: false });
         });
     };
+    
+    handleClick = (e) => {
+        console.log(e)
+        window.open("https://dx.doi.org/" + e, "_blank")
+    }
 
     renderData = () => {
         // create an authors array;
         const authorStatements = this.state.requestedData.statementsData.content.filter(item => item.predicate.id === 'P27');
         const doiStatement = this.state.requestedData.statementsData.content.filter(item => item.predicate.id === 'P26');
+        
+        function changeColor(e) {
+
+            e.target.style.color = 'blue';
+
+            e.target.style.cursor = 'pointer';
+
+          }
+
+          function changeColor2(e) {
+
+            e.target.style.color = 'black';
+
+          }
+        
         let doiValue = '';
         if (doiStatement[0] && doiStatement[0].object) {
             doiValue = doiStatement[0].object.label;
@@ -46,7 +66,7 @@ class ExampleB extends Component {
                         })}
                     </div>
                     <div>Paper Data:</div>
-                    <div>Paper doi: {doiValue}</div>
+                    <div>Paper doi: <p onClick={() => this.handleClick(doiValue)} onMouseEnter={changeColor} onMouseLeave={changeColor2} style={{display: "inline"}}>{doiValue}</p></div>
                 </div>
             );
         }
